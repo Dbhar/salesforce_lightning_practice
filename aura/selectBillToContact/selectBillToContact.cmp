@@ -1,0 +1,55 @@
+<aura:component implements="force:lightningQuickActionWithoutHeader,force:hasRecordId" access="global" controller="selectBillToContactController">
+    <aura:attribute name="contacts" type="Object"/>
+    <aura:attribute name="targetedRecord" type="Object"/>
+    <aura:attribute name="selectedContactId" type="Id"/>
+    <aura:attribute name="simplifiedRecord" type="Object"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:if isTrue="{!v.contacts.length > 0}">
+        <lightning:card title="Select Bill To Contact" iconName="standard:contact">
+            <table class="slds-table slds-table_bordered slds-table_cell-buffer">
+                <thead>
+                    <tr class="slds-text-title_caps">
+                        <th scope="col">
+                            <div class="slds-truncate" title="Select">Select</div>
+                        </th>
+                        <th scope="col">
+                            <div class="slds-truncate" title="Name">Name</div>
+                        </th>
+                        <th scope="col">
+                            <div class="slds-truncate" title="Subjects">Subjects</div>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <aura:iteration items="{!v.contacts}" var="contact">
+                        <tr>
+                            <td data-label="Name">
+                                <div class="slds-truncate" title="Select">
+                                    <ui:inputRadio name="options" text="{!contact.record.Id}" change="{!c.handleOnSelect}" value="{!contact.isSelected}"/>
+                                </div> 
+                            </td>
+                            <td data-label="Name">
+                                <div class="slds-truncate" title="{!contact.record.Name}">
+                                    {!contact.record.Name}
+                                </div> 
+                            </td>
+                            <td data-label="Subjects">
+                                <aura:if isTrue="{!contact.record.Subjects__c}">
+                                    <div class="slds-truncate" title="{!contact.record.Subjects__c}">{!contact.record.Subjects__c}</div> 
+                                    <aura:Set attribute="else">
+                                        <div class="slds-truncate" title=""></div> 
+                                    </aura:Set>
+                                </aura:if>
+                            </td>
+                        </tr>
+                    </aura:iteration>
+                </tbody>
+            </table>
+            <footer class="slds-card__footer">
+                <lightning:button label="Save" onclick="{!c.handleOnSave}" variant="success"/>
+                <lightning:button label="Clear" onclick="{!c.handleOnClear}" variant="destructive"/>
+                <lightning:button label="Cancel" onclick="{!c.handleOnCancel}" variant="brand"/>
+            </footer>
+        </lightning:card>
+    </aura:if>
+</aura:component>

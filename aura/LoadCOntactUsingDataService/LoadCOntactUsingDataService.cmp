@@ -1,0 +1,34 @@
+<aura:component implements="flexipage:availableForRecordHome,force:lightningQuickActionWithoutHeader,force:hasRecordId">
+    <aura:attribute name="simpleRecord" type="Object"/>
+    <aura:attribute name="record" type="Object"/>
+    <aura:attribute name="recordError" type="String"/>
+    <aura:attribute name="subjects" type="List" default="[]"/>
+    <aura:attribute name="selectedSubjects" type="List" default="[]"/>
+    <force:recordData aura:id="recordHandler"
+                      fields="Name,Subjects__c,Experience__c,Account.Name"
+                      recordId="{!v.recordId}"
+                      targetFields="{!v.simpleRecord}"
+                      targetRecord="{!v.record}"
+                      targetError="{!v.recordError}"
+                      recordUpdated="{!c.handleRecordUpdate}"
+                      mode="EDIT"/>
+    <div class="Record Details">
+        <lightning:card iconName="action:edit" title="Edit teacher's experience and subjects">
+            <div class="slds-p-horizontal--small">
+                <lightning:dualListBox aura:id="subjects"
+                                       name="subjects"
+                                       label="Subjects"
+                                       sourceLabel="Available"
+                                       selectedLabel="Selected"
+                                       options="{!v.subjects}"
+                                       value="{!v.selectedSubjects}"/>
+                <br/>
+                <lightning:input label="Experience" type="number" value="{!v.simpleRecord.Experience__c}"/>
+                <br/>
+                <lightning:button label="Save Teacher" variant="brand" onclick="{!c.handleSaveRecord}"/>
+            </div>
+            
+        </lightning:card>
+    </div>
+	
+</aura:component>

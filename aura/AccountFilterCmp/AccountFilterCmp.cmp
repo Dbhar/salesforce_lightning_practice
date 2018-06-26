@@ -1,0 +1,44 @@
+<aura:component controller="AccountFilterController" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global">
+    <aura:attribute name="queriedAccounts" type="Object"/>
+    <aura:attribute name="accounts" type="Object"/>
+    <aura:attribute name="columns" type="List"/>
+    <aura:attribute name="billingCity" type="String"/>
+    <aura:attribute name="billingState" type="String"/>
+    <aura:attribute name="billingCountry" type="String"/>
+    <aura:attribute name="offset" type="Integer" default='0'/>
+    <aura:attribute name="totalRecords" type="Integer" default="0"/>
+    <aura:attribute name="offsetLimit" type="Integer" default="2000"/>
+    <aura:attribute name="displayResultsCard" type="Boolean" default='false'/>
+    <lightning:card title="Account Filter" iconName="standard:search">
+            <lightning:layout>
+                <lightning:layoutItem  class="slds-p-around_small">
+                    <lightning:input type="text" aura:id="billing_city" label="Billing City" value="{!v.billingCity}"/>
+                </lightning:layoutItem>
+                <lightning:layoutItem  class="slds-p-around_small">
+                    <lightning:input type="text" aura:id="billing_state" label="Billing State" value="{!v.billingState}"/>
+                </lightning:layoutItem>
+                <lightning:layoutItem  class="slds-p-around_small">
+                    <lightning:input type="text" aura:id="billing_country" label="Billing Country" value="{!v.billingCountry}"/>
+                </lightning:layoutItem>
+            </lightning:layout>
+            <div class="slds-p-around_small">
+        		<lightning:buttonIcon iconName="utility:search" variant="brand" title="Filter" alternativeText='Filter' onclick="{!c.handleFilterAction}"/>
+        	</div>    
+    </lightning:card>
+    <aura:if isTrue="{!v.displayResultsCard}">
+        <lightning:card title='Accounts' iconName="standard:account">
+            <lightning:datatable data="{!v.accounts}" 
+                                 columns="{!v.columns}" 
+                                 keyField="Id"
+                                 onsave="{!c.handleOnSave}"
+                                 onrowaction="{!c.handleRowAction}"
+                                 loadMoreOffset="5"
+                                 minColumnWidth="100"/>
+            <p> Displaying {!v.offset + 1} to {!v.offset + v.accounts.length} of {!v.totalRecords} Accounts </p>
+            <lightning:button onclick="{!c.handleFirst}" label="First" disabled="{! v.offset &lt;= 0}"/>
+            <lightning:button onclick="{!c.handlePrevious}" label="Previous" disabled="{! v.offset &lt;= 0}"/>
+            <lightning:button onclick="{!c.handleNext}" label="Next" disabled="{! v.totalRecords - v.offset == v.accounts.length}"/>
+        	<lightning:button onclick="{!c.handleLast}" label="Last" disabled="{! v.totalRecords - v.offset == v.accounts.length}"/>
+        </lightning:card>
+    </aura:if>    
+</aura:component>

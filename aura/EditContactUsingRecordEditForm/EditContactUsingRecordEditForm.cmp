@@ -1,0 +1,34 @@
+<!-- Teacher Edit Page Using lightning:recordEditForm-->
+<aura:component implements="flexipage:availableForRecordHome,force:hasRecordId,lightning:actionOverride">
+    <aura:attribute type="Contact" name="teacher"/>
+    <aura:attribute type="Boolean" name="render" default="true"/>
+    <div role="dialog" class="slds-modal slds-fade-in-open">
+        <div class="slds-modal__container">
+            <lightning:card title="Contact Edit" iconName="action:Edit">
+                <lightning:recordEditForm aura:id="TeacherEdit" 
+                                      recordId="{!v.recordId}"
+                                      objectApiName="Contact" 
+                                      class="slds-form--stacked"
+                                      onsubmit="{!c.handleSubmit}">
+                    <lightning:layout>
+                        <lightning:layoutItem padding="around-small">
+                            <lightning:inputField fieldName="FirstName"/>
+                            <lightning:inputField fieldName="LastName"/>
+                            <lightning:inputField fieldName="AccountId"/>
+                            <lightning:inputField fieldName="Experience__c"/>
+                        </lightning:layoutItem>
+                        <lightning:layoutItem padding="around-small">
+                            <lightning:inputField fieldName="Subjects__c"/>
+                        </lightning:layoutItem>
+                    </lightning:layout> 
+                    <lightning:buttonGroup class="slds-p-around_small">
+                        <lightning:button aura:id="submit" type="submit" label="save" class="slds-m-top_medium"/>
+                        <lightning:button aura:id="cancel" label="cancel" class="slds-m-top_medium" onclick="{!c.handleCancelAction}"/>
+                    </lightning:buttonGroup>
+                </lightning:recordEditForm>
+    		</lightning:card>
+        </div>
+        
+    </div>
+    
+</aura:component>
